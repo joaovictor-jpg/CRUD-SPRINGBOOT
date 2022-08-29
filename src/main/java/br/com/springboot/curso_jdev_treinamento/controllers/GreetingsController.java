@@ -90,4 +90,11 @@ public class GreetingsController {
     	Usuario obj = usuarioRepository.saveAndFlush(usuario);
     	return ResponseEntity.ok().body(obj);	
     }
+    
+    @GetMapping(value = "/buscarpornome")
+    @ResponseBody
+    public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam String name) {
+    	List<Usuario> buscarPorNome = usuarioRepository.buscarPorNome(name.trim().toUpperCase());
+    	return ResponseEntity.ok().body(buscarPorNome);
+    }
 }
