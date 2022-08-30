@@ -19,14 +19,29 @@
 				class="form-control" id="id" readonly="readonly">
 		</div>
 		<div class="mb-3">
-			<label for="name" class="form-label">Nome do usuario</label>
-			<input type="text" class="form-control" id="name" placeholder="informe seu nome">
+			<label for="name" class="form-label">Nome do usuario</label> <input
+				type="text" class="form-control" id="name"
+				placeholder="informe seu nome">
 		</div>
 		<div class="mb-3">
 			<label for="idade" class="form-label">Idade</label>
 			<input type="number" class="form-control" id="idade">
 		</div>
 	</form>
+
+	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+		crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+	function salvarUsuario(){
+		var id = $("#id").val();
+		var name = $("#name").val();
+		var idade = $("#idade").val();
+	}
+	</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
