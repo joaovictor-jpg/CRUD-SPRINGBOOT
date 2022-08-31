@@ -19,7 +19,7 @@
 				class="form-control" id="id" readonly="readonly">
 		</div>
 		<div class="mb-3">
-			<label for="name" class="form-label">Nome do usuario</label> <input
+			<label for="name" class="form-label">Nome do usuário</label> <input
 				type="text" class="form-control" id="name"
 				placeholder="informe seu nome">
 		</div>
@@ -30,6 +30,7 @@
 	</form>
 
 	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+	<button type="button" class="btn btn-danger" onclick="document.getElementById('formcadastroUser').reset();">Novo</button>
 
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
 		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -40,6 +41,25 @@
 		var id = $("#id").val();
 		var name = $("#name").val();
 		var idade = $("#idade").val();
+		
+		$.ajax({
+			method: "POST",
+			url: "salvar",
+			data: JSON.stringify({
+				id : id,
+				name : name,
+				idade : idade
+			}),
+			contentType: "application/json; charset=utf-8",
+			success: function (response) {
+				alert("Gravou com sucesso!");
+				
+				$("#id").val(response.id);
+			}
+		}).fail(function(xhr, status, errorThrown) {
+			alert("Erro ao salvar: " + xhr.responseText);
+		});
+		
 	}
 	</script>
 
