@@ -34,6 +34,7 @@
 		onclick="document.getElementById('formcadastroUser').reset();">Novo</button>
 	<button type="button" class="btn btn-info" data-bs-toggle="modal"
 		data-bs-target="#modalPesquisaUser">Pesquisar</button>
+	<button type="button" class="btn btn-danger" onclick="excluir()">DELETE</button>
 
 	<div class="modal fade" id="modalPesquisaUser" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,6 +63,7 @@
 								<th scope="col">NOME</th>
 								<th scope="col">IDADE</th>
 								<th scope="col">EDITAR</th>
+								<th scope="col">DELETE</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,13 +100,17 @@
 										for (var i = 0; i < response.length; i++) {
 											$("#tableresultados > tbody")
 													.append(
-															'<tr><td>'
+															'<tr id='+response[i].id+'><td>'
 																	+ response[i].id
 																	+ '</td><td>'
 																	+ response[i].name
 																	+ '</td><td>'
 																	+ response[i].idade
-																	+ '</td><td><button type="button" class="btn btn-light" onclick="colocarEmEdicao('+response[i].id+')">Ver</button></td></tr>')
+																	+ '</td><td><button type="button" class="btn btn-info" onclick="colocarEmEdicao('
+																	+ response[i].id
+																	+ ')">Ver</button></td><td><button type="button" class="btn btn-danger" onclick="deleteUser('
+																	+ response[i].id
+																	+ ')">DELETE</button></td</tr>')
 										}
 									}
 								}).fail(function(xhr, status, errorThrown) {
@@ -113,19 +119,45 @@
 			}
 		}
 		
+		function excluir() {
+			var id = $("#id").val();
+			deleteUser(id);
+			
+			document.getElementById('formcadastroUser').reset();
+		}
+
+		function deleteUser(id) {
+			if (confirm('Deseja realmente deletar?')) {
+
+				$.ajax({
+					method : "DELETE",
+					url : "delete",
+					data : "id=" + id,
+					success : function(response) {
+						alert(response);
+						$("#" + id).remove();
+					}
+				}).fail(
+						function(xhr, status, errorThrown) {
+							alert("Error ao deletar usuário por id: "
+									+ shr.responseText);
+						});
+			}
+		}
+
 		function colocarEmEdicao(id) {
 			$.ajax({
 				method : "GET",
 				url : "buscarporid",
-				data : "id="+id,
+				data : "id=" + id,
 				success : function(response) {
 					$("#id").val(response.id);
 					$("#name").val(response.name);
 					$("#idade").val(response.idade);
 					$("#modalPesquisaUser").modal("hide");
 				}
-			}).fail(function(xhr, status, errorThrown){
-				alert("Erro ao buscar usuario por id: " + xhr.responseText);
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao buscar usuário por id: " + xhr.responseText);
 			});
 		}
 
